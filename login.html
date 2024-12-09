@@ -11,7 +11,7 @@
     <!-- Login Container -->
     <div class="login-container">
         <h1>Welcome Back to AdventureLands</h1>
-        <form id="login-form">
+        <form id="login-form" onsubmit="return handleLogin(event)">
             <div class="input-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
@@ -40,5 +40,30 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Example validation (you can replace this with an API call)
+            if (email === "user@example.com" && password === "password123") {
+                // Redirect to the game page after successful login
+                window.location.href = "game.html";
+            } else {
+                alert("Invalid email or password.");
+            }
+        }
+
+        // Google Sign-In handling (optional)
+        function onGoogleSignIn(googleUser) {
+            const profile = googleUser.getBasicProfile();
+            console.log("Logged in as: " + profile.getName());
+            // Redirect to game page after Google login
+            window.location.href = "game.html";
+        }
+    </script>
 </body>
 </html>
