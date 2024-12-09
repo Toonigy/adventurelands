@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AdventureLands</title>
+    <link rel="stylesheet" href="styles/login.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- Login Container -->
+    <div class="login-container">
+        <h1>Welcome Back to AdventureLands</h1>
+        <form id="login-form">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="login-btn">Log In</button>
+        </form>
+
+        <div class="alternative-options">
+            <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+            <div id="g_id_onload"
+                data-client_id="488724587214-ssj6lq6ia1kq69rfcfv64pe8n55c609n.apps.googleusercontent.com"
+                data-login_uri="YOUR_LOGIN_REDIRECT_URI"
+                data-auto_prompt="false">
+            </div>
+            <div class="g_id_signin"
+                data-type="standard"
+                data-size="large"
+                data-theme="outline"
+                data-text="sign_in_with"
+                data-shape="rectangular"
+                data-logo_alignment="left">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
