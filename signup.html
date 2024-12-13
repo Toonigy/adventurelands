@@ -10,7 +10,7 @@
     <!-- Sign Up Container -->
     <div class="signup-container">
         <h1>Create Your AdventureLands Account</h1>
-        <form id="signup-form">
+        <form id="signup-form" onsubmit="return handleSignup(event)">
             <div class="input-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
@@ -30,5 +30,37 @@
             <p>Already have an account? <a href="login.html">Log In</a></p>
         </div>
     </div>
+
+    <script>
+        function handleSignup(event) {
+            event.preventDefault(); // Prevent the form from refreshing the page
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                alert("Passwords do not match. Please try again.");
+                return false;
+            }
+
+            // Save user details to localStorage (temporary storage; use a database for production)
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            const userExists = users.some((user) => user.email === email);
+
+            if (userExists) {
+                alert("An account with this email already exists. Please log in.");
+                return false;
+            }
+
+            // Save the new user
+            users.push({ email, password });
+            localStorage.setItem("users", JSON.stringify(users));
+
+            alert("Account created successfully! Redirecting to login page.");
+            window.location.href = "login.html"; // Redirect to login
+        }
+    </script>
 </body>
 </html>
