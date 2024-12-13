@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - AdventureLands</title>
     <link rel="stylesheet" href="styles/login.css">
+    <script src="accountStorage.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
@@ -43,26 +44,20 @@
 
     <script>
         function handleLogin(event) {
-            event.preventDefault(); // Prevent the form from submitting
+            event.preventDefault(); // Prevent form refresh
 
-            const email = document.getElementById("email").value;
+            const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value;
 
-            // Example validation (you can replace this with an API call)
-            if (email === "user@example.com" && password === "password123") {
-                // Redirect to the game page after successful login
-                window.location.href = "game.html";
-            } else {
-                alert("Invalid email or password.");
-            }
-        }
+            // Validate account using the accountStorage.js function
+            const isValid = validateAccount(email, password);
 
-        // Google Sign-In handling (optional)
-        function onGoogleSignIn(googleUser) {
-            const profile = googleUser.getBasicProfile();
-            console.log("Logged in as: " + profile.getName());
-            // Redirect to game page after Google login
-            window.location.href = "game.html";
+            if (isValid) {
+                alert("Login successful!");
+                window.location.href = "game.html"; // Redirect to game page
+            } else {
+                alert("Invalid email or password. Please try again.");
+            }
         }
     </script>
 </body>
