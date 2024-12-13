@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdventureLands - Game</title>
+    <link rel="stylesheet" href="styles/game.css">
+    <script src="accountStorage.js"></script>
+</head>
+<body>
+    <div id="game-container">
+        <div id="setup-container" style="display: none;">
+            <h1>Welcome to AdventureLands!</h1>
+            <p>Let's create your avatar and choose a name to start your adventure.</p>
+            <form id="avatar-form" onsubmit="return handleAvatarSetup(event)">
+                <div class="input-group">
+                    <label for="avatar-name">Your Name</label>
+                    <input type="text" id="avatar-name" name="avatar-name" required>
+                </div>
+                <div class="input-group">
+                    <label for="avatar-image">Choose Avatar</label>
+                    <select id="avatar-image" name="avatar-image">
+                        <option value="warrior">Warrior</option>
+                        <option value="mage">Mage</option>
+                        <option value="archer">Archer</option>
+                    </select>
+                </div>
+                <button type="submit" class="setup-btn">Start Adventure</button>
+            </form>
+        </div>
+
+        <div id="game-interface" style="display: none;">
+            <h1>Welcome back, <span id="player-name"></span>!</h1>
+            <img id="player-avatar" src="" alt="Avatar" />
+            <p>Your adventure begins now...</p>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+    </div>
+
+    <script>
+        function initializeGame() {
+            const email = sessionStorage.getItem("loggedInUser");
+            if (!email) {
+                alert("You are not logged in. Redirecting to login page.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            const user = users.find((user) => user.email === email);
+
+            if (!user) {
+                alert("User not found. Redirecting to login page.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            if (!user.avatar || !user.name) {
+                document.getElementById("setup-container").style.display = "block";
+            } else {
+                document.getElementById("game-interface").style.display = "block";
+                document.getElementById("player-name").textContent = user.name;
+                document.getElementById("player-avatar").src = `images/${user.avatar}.png`;
+            }
+        }
+
+        function handleAvatarSetup(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("avatar-name").value.trim();
+            const avatar = document.getElementById("avatar-image").value;
+
+            const email = sessionStorage.getItem("loggedInUser");
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            const userIndex = users.findIndex((user) => user.email === email);
+
+            if (userIndex === -1) {
+                alert("User not found. Redirecting to login page.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            // Save the avatar and name
+            users[userIndex].name = name;
+            users[userIndex].avatar = avatar;
+            localStorage.setItem("users", JSON.stringify(users));
+
+            alert("Avatar and name saved! Let's start your adventure.");
+            location.reload(); // Refresh to load game interface
+        }
+
+        function startGame() {
+            alert("Starting your adventure...");
+            // Implement game logic here
+        }
+
+        // Initialize the game on load
+        window.onload = initializeGame;
+    </script>
+</body>
+</html>
